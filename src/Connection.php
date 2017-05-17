@@ -184,4 +184,15 @@ EOL;
             $this->_socket->createCommand($name, $params)
         );
     }
+
+    /**
+     * Get predis Client
+     * @return Client
+     */
+    public function getClient()
+    {
+        $this->open();
+
+        return $this->_socket;
+    }
 }
