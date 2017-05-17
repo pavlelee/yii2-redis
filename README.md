@@ -1,4 +1,5 @@
 # yii2-redis
+Using (https://github.com/nrk/predis)[Predis] and yii2 combination
 This extension is fully compatible with the yii2-redis extension, and you can use predis only if you replace the configuration
 
 ```
