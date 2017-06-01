@@ -13,10 +13,7 @@ use yii\redis\ActiveRecord;
 class ActiveQuery extends \yii\redis\ActiveQuery
 {
     /**
-     * Executes the query and returns all results as an array.
-     * @param Connection $db the database connection used to execute the query.
-     * If this parameter is not given, the `db` application component will be used.
-     * @return array|ActiveRecord[] the query results. If the query results in nothing, an empty array will be returned.
+     * @inheritdoc
      */
     public function all($db = null)
     {
@@ -48,12 +45,7 @@ class ActiveQuery extends \yii\redis\ActiveQuery
     }
 
     /**
-     * Executes the query and returns a single row of result.
-     * @param Connection $db the database connection used to execute the query.
-     * If this parameter is not given, the `db` application component will be used.
-     * @return ActiveRecord|array|null a single row of query result. Depending on the setting of [[asArray]],
-     * the query result may be either an array or an ActiveRecord object. Null will be returned
-     * if the query results in nothing.
+     * @inheritdoc
      */
     public function one($db = null)
     {
