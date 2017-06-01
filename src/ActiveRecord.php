@@ -18,5 +18,4 @@ class ActiveRecord extends \yii\redis\ActiveRecord
     {
         return Yii::createObject(ActiveQuery::className(), [get_called_class()]);
     }
-
 }
