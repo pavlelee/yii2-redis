@@ -9,17 +9,10 @@ namespace pavle\yii\redis;
 
 use Predis\Client;
 use yii\db\Exception;
-use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
-use yii\redis\LuaScriptBuilder;
 
 class Connection extends \yii\redis\Connection
 {
-    /**
-     * @event Event an event that is triggered after a DB connection is established
-     */
-    const EVENT_AFTER_OPEN = 'afterOpen';
-
     /**
      * @var mixed Connection parameters for one or more servers.
      */
@@ -34,16 +27,6 @@ class Connection extends \yii\redis\Connection
      * @var Client redis connection
      */
     private $_socket = false;
-
-    /**
-     * Closes the connection when this component is being serialized.
-     * @return array
-     */
-    public function __sleep()
-    {
-        $this->close();
-        return array_keys(get_object_vars($this));
-    }
 
     /**
      * Returns a value indicating whether the DB connection is established.
@@ -96,54 +79,6 @@ EOL;
         if ($this->_socket !== false) {
             $this->_socket->disconnect();
             $this->_socket = false;
-        }
-    }
-
-    /**
-     * Initializes the DB connection.
-     * This method is invoked right after the DB connection is established.
-     * The default implementation triggers an [[EVENT_AFTER_OPEN]] event.
-     */
-    protected function initConnection()
-    {
-        $this->trigger(self::EVENT_AFTER_OPEN);
-    }
-
-    /**
-     * Returns the name of the DB driver for the current [[dsn]].
-     * @return string name of the DB driver
-     */
-    public function getDriverName()
-    {
-        return 'redis';
-    }
-
-    /**
-     * @return LuaScriptBuilder
-     */
-    public function getLuaScriptBuilder()
-    {
-        return new LuaScriptBuilder();
-    }
-
-    /**
-     * Allows issuing all supported commands via magic methods.
-     *
-     * ```php
-     * $redis->hmset('test_collection', 'key1', 'val1', 'key2', 'val2')
-     * ```
-     *
-     * @param string $name name of the missing method to execute
-     * @param array $params method call arguments
-     * @return mixed
-     */
-    public function __call($name, $params)
-    {
-        $redisCommand = strtoupper(Inflector::camel2words($name, false));
-        if (in_array($redisCommand, $this->redisCommands)) {
-            return $this->executeCommand($redisCommand, $params);
-        } else {
-            return parent::__call($name, $params);
         }
     }
 
