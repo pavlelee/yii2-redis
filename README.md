@@ -1,5 +1,5 @@
 # yii2-redis
-Using (https://github.com/nrk/predis)[Predis] and yii2 combination
+Using [Predis](https://github.com/nrk/predis) and yii2 combination
 This extension is fully compatible with the yii2-redis extension, and you can use predis only if you replace the configuration
 
 # Usage
@@ -14,7 +14,7 @@ This extension is fully compatible with the yii2-redis extension, and you can us
 ```
 
 2.More usage
-(https://github.com/yiisoft/yii2-redis/blob/master/docs/guide/README.md)[yii2-redis]Document
+[yii2-redis Document](https://github.com/yiisoft/yii2-redis/blob/master/docs/guide/README.md)
 
 3.Using the predis client
 ```
