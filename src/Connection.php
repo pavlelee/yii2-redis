@@ -7,7 +7,15 @@
 
 namespace pavle\yii\redis;
 
+use pavle\yii\redis\Profile\RedisVersion200;
+use pavle\yii\redis\Profile\RedisVersion220;
+use pavle\yii\redis\Profile\RedisVersion240;
+use pavle\yii\redis\Profile\RedisVersion260;
+use pavle\yii\redis\Profile\RedisVersion280;
+use pavle\yii\redis\Profile\RedisVersion300;
+use pavle\yii\redis\Profile\RedisVersion320;
 use Predis\Client;
+use Predis\Profile\Factory;
 use yii\db\Exception;
 use yii\helpers\VarDumper;
 
@@ -27,6 +35,24 @@ class Connection extends \yii\redis\Connection
      * @var Client redis connection
      */
     private $_socket = false;
+
+    /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        Factory::define('2.0', RedisVersion200::class);
+        Factory::define('2.2', RedisVersion220::class);
+        Factory::define('2.4', RedisVersion240::class);
+        Factory::define('2.6', RedisVersion260::class);
+        Factory::define('2.8', RedisVersion280::class);
+        Factory::define('3.0', RedisVersion300::class);
+        Factory::define('3.2', RedisVersion320::class);
+        Factory::define('dev', 'Predis\Profile\RedisUnstable');
+        Factory::define('default', RedisVersion320::class);
+    }
 
     /**
      * Returns a value indicating whether the DB connection is established.
@@ -113,7 +139,7 @@ EOL;
     {
         $this->open();
 
-        \Yii::trace("Executing Redis Command: {$name}", __METHOD__);
+        \Yii::trace("Executing Redis Command: {$name} " . join(' ', $params), __METHOD__);
 
         return $this->_socket->executeCommand(
             $this->_socket->createCommand($name, $params)
